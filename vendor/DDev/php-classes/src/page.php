@@ -14,13 +14,13 @@ class Page{
 		"data"=>[]
 	];
 
-	public function __construct($opts = array()){
+	public function __construct($opts = array(), $tpl_dir = "/views/"){
 
 		//Se passar um parametro e der conflito com $opts , oo opts que vale, e p 'array_merge' , vai mesclar os dados e por em $optios//
 		$this->options = array_merge($this->defaults, $opts);
 
 		$config = array(         //'$_SERVER["DOCUMENT_ROOT"]', TRAZ A PASTA QUE P SERVIDOR ESTA CONFIGURADO//
-				"tpl_dir"       =>$_SERVER["DOCUMENT_ROOT"] ."/views/",
+				"tpl_dir"       =>$_SERVER["DOCUMENT_ROOT"] .$tpl_dir,
 				"cache_dir"     =>$_SERVER["DOCUMENT_ROOT"] ."/views-cache/",
 				"debug"         => false // trás alguns comentarios e etc
 				   );
