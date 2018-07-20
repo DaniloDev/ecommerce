@@ -2,19 +2,20 @@
 
 require_once("vendor/autoload.php");
 
-$app = new \Slim\Slim();
+use \Slim\Slim;
+use \DDev\Page;
+
+
+$app = new Slim();
 
 //'debug', mostra os erros formatados e etc//
 $app->config('debug', true);
 
 $app->get('/', function() {
-    
-	$sql = new DDev\DB\Sql();
 
-	$results = $sql->select("SELECT * FROM TB_USERS");
+	$page = new Page();
 
-	echo json_encode($results);
-
+	$page->setTpl("index"); 
 
 });
 
