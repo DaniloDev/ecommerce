@@ -37,7 +37,6 @@ class Page{
 		//Iniciando a tela de apresntação para usuário//
 		if($this->options["header"] === true)$this->tpl->draw("header");
 
-
 	}
 
     private function setData($data){

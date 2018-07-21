@@ -1,1 +1,0 @@
-Quando javascript é colcado no final da pagina fica mais rapido a execução do mesmo e do site.
