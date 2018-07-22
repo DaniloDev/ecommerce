@@ -301,10 +301,6 @@ class User extends Model{
 
         }
 
-
-
-
-
 	 }
 
 

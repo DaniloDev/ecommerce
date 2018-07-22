@@ -329,6 +329,24 @@ $app->post("/admin/categories/:idcategory", function($idcategory){
 
 });
 
-	$app->run();
+//Essa parte é para criar categorias incluida na template do site//
+
+$app->get("/categories/:idcategory", function($idcategory){
+	
+	$category = new Category();
+   
+	 //Tendo certeza que é um núemero//
+	$category->get((int)$idcategory);
+
+	$page = new Page();
+
+	$page->setTpl("category", [
+		'category'=>$category->getValues(),
+		'products'=>[]
+	]);
+
+});
+
+$app->run();
 
  ?>
