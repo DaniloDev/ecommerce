@@ -6,8 +6,8 @@ use Rain\Tpl;
 
 class Mailer{
 
-	const USERNAME 	= "cursosmega800@gmail.com";
-	const PASSWORD 	= "nascimento@2ba";
+	const USERNAME 	= "";
+	const PASSWORD 	= "";
 	const NAME_FROM =  "Curso PHP 7 Estudos";
 
 
