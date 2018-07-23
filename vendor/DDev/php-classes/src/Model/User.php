@@ -8,8 +8,8 @@ use \DDev\Mailer;
 
 class User extends Model{
 
-	   const SESSION = "User";
-     const SECRET  =  "DDev_PHP7_Secret";
+	   const SESSION = "";
+     const SECRET  =  "";
 
 
 	public static function login($login, $password){
