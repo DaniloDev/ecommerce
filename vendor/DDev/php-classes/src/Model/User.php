@@ -192,6 +192,38 @@ class User extends Model{
 
               }
 
+
+/*
+                      public function update( $changePassword = true )
+                       {
+                       
+                          if ( $changePassword ) {
+                       
+                             $password = password_hash( $this->getdespassword(), PASSWORD_DEFAULT, [ "cost" => 12 ] );
+                       
+                          } else {
+                       
+                             $password = $_POST['despassword'];
+                       
+                          }
+                       
+                          $sql = new Sql();
+                          $results = $sql->select( "CALL sp_usersupdate_save(:iduser, :desperson, :deslogin, :despassword, :desemail, :nrphone, :inadmin)", 
+                                                        array( 
+                                                        ":iduser"      => $this->getiduser(),
+                                                        ":desperson"   => utf8_decode( $this->getdesperson() ),
+                                                       ":deslogin"    => $this->getdeslogin(),
+                                                       ":despassword" => $password,
+                                                       ":desemail"    => $this->getdesemail(),
+                                                       ":nrphone"     => $this->getnrphone(),
+                                                       ":inadmin"     => $this->getinadmin() ) 
+                                                  );
+                       
+                          $this->setData( $results[ 0 ] );
+                       }
+
+                       */
+                      
               public function update(){
 
               $sql = new Sql(); 
@@ -202,7 +234,7 @@ class User extends Model{
                      ":iduser"=>$this->getiduser(),       
                      ":desperson"=>utf8_decode($this->getdesperson()),
                      ":deslogin"=>$this->getdeslogin(),
-                     ":despassword"=>$_POST['despassword'],
+                     ":despassword"=>$this->getdespassword(),
                      ":desemail"=>$this->getdesemail(),
                      ":nrphone"=>$this->getnrphone(),
                      ":inadmin"=>$this->getinadmin()
@@ -213,6 +245,7 @@ class User extends Model{
         
 
               }
+
 
 
               public function delete(){
@@ -394,7 +427,7 @@ class User extends Model{
 
                $msg = (isset($_SESSION[User::SUCESS]) &&  $_SESSION[User::SUCESS]) ? $_SESSION[User::SUCESS] : '';
 
-                    User::clearError(); // Realiza a limpeza da variável de sessão;
+                    User::clearSucess(); // Realiza a limpeza da variável de sessão;
 
                       return $msg;
                   }

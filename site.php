@@ -372,38 +372,39 @@ $app->post("/profile" , function(){
   if (!isset($_POST['desperson']) || $_POST['desperson'] === '') {
     
     User::setError("Preencha o seu nome");
-     header("Location: /profile");
-     exit;
+    header('Location: /profile');
+    exit;
+    
   }
   if (!isset($_POST['desemail']) || $_POST['desemail'] === '') {
     
     User::setError("Preencha o seu email");
+    header('Location: /profile');
+    exit;
 
-    header("Location: /profile");
-     exit;
   }
 
   $user = User::getFromSession();
 
-  if ($_POST['desemail'] !== $user->getemail()) {
+  if ($_POST['desemail'] !== $user->getdesemail()) {
       
      if (User::checkLoginExist($_POST['desemail']) === true) {
         
          User::setError("Este email já está sendo utilizado");
-
-         header("Location: /profile");
-         exit;
+         header('Location: /profile');
+        exit;
 
       } 
 
 
   }
+
   ////////////////////////////////
-  $_POST['iduser'] = $user->getiduser();
+ $_POST['iduser'] = $user->getiduser();
 
   $_POST['inadmin'] = $user->getinadmin();
 
-  $_POST['despassword'] = $user->getpassword();
+  $_POST['despassword'] = $user->getdespassword();
 
   $_POST['deslogin'] = $_POST['desemail']; // Garantindo que o ligin vai ser igual ao email
 
@@ -412,7 +413,7 @@ $app->post("/profile" , function(){
   $user->update();
 
   $_SESSION[User::SESSION] = $user->getValues();
-
+    
   User::setSucess("Dados alterados com sucesso!");
 
   header("Location: /profile");
