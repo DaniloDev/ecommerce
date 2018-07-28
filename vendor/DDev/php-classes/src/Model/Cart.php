@@ -111,13 +111,13 @@ use \DDev\Model\User;
 
             $sql = new Sql();
 
-            $results = $sql->select("CALL sp_carts_save(:idcart, :dessessionid, :iduser, :deszipcode, :vlfreigh, :nrdays)",[
+            $results = $sql->select("CALL sp_carts_save(:idcart, :dessessionid, :iduser, :deszipcode, :vlfreight, :nrdays)",[
             
               ':idcart'=>$this->getidcart(),
               ':dessessionid'=>$this->getdessessionid(),
               ':iduser'=>$this->getiduser(),
               ':deszipcode'=>$this->getdeszipcode(),
-              ':vlfreigh'=>$this->getvlfreigh(),
+              ':vlfreight'=>$this->getvlfreight(),
               ':nrdays'=>$this->getnrdays()  
 
             ]);
@@ -138,6 +138,8 @@ use \DDev\Model\User;
               ':idproduct'=>$product->getidproduct()
               ]);
 
+
+            $this->getCalculeteTotal();
 
           }
 
@@ -163,6 +165,8 @@ use \DDev\Model\User;
 
                    ]);
              }
+
+             $this->getCalculeteTotal();
 
           }
 
@@ -249,18 +253,23 @@ use \DDev\Model\User;
            
            $xml = simplexml_load_file("http://ws.correios.com.br/calculador/CalcPrecoPrazo.asmx/CalcPrecoPrazo?".$qs);
 
+            /*echo json_encode(($xml));
+            exit();
+            */
             $result = $xml->Servicos->cServico; // Seleciona dentro do objeto serviços o objeto cServico;
            
             if($result->MsgErro != '') {  // Caso alguma mensagem de erro seja encontrada;
 
-            Cart::setMsgError($result->MsgErro); // Define a mensagem de erro na variável de sessão
+            Cart::setMsgError($result->MsgErro); // Define a mensagem de erro na variável de sessão, coloca na sessao
 
             } else {
 
             Cart::clearMsgError(); // Limpa a mensagem de erro na variável de sessão;
+
+
               }
 
-            $this->setnrdays();
+            $this->setnrdays($result->PrazoEntrga);
           
            $this->setvlfreight(Cart::formatValueToDecimal($result->Valor));  // Atribui o valor do frete como atributo;
            
@@ -268,16 +277,19 @@ use \DDev\Model\User;
 
             $this->save();
 
+          //  return $result;
 
           }else{
 
 
 
-          }
+              }
 
 
-    }
-            public static function formatValueToDecimal($value) : float { // Converte uma um valor no padrão brasileiro para o norte 
+     }
+           
+
+            public static function formatValueToDecimal($value) : float { // Converte uma um valor no padrão brasileiro para o norte , para salvqar em bd, pe tem qa salvar assim
                                                               // americano;
               $value = str_replace('.', '', $value); // Troca todos os '.' do valor por '';
 
@@ -299,16 +311,52 @@ use \DDev\Model\User;
                       return $msg;
                   }
 
-                   public static function clearMsgError() { // Realiza a limpeza da variável de sessão especificada;
+                 public static function clearMsgError() { // Realiza a limpeza da variável de sessão especificada;
 
-                    $_SESSION[Cart::SESSION_ERROR] = NULL;
+                  $_SESSION[Cart::SESSION_ERROR] = NULL;
                       
                 }
 
 
+                public function updateFreight(){
+
+                  //Verifica se tem cep //
+                  if ($this->getdeszipcode() != '') {
+                    
+                    $this->setFreight($this->getdeszipcode());
+                  }
 
 
-	 }
+
+
+                }
+
+                // Sobreescrecer metodo//
+                public function getValues(){
+
+
+                  $this->getCalculeteTotal();
+
+
+                  return parent::getValues();
+
+
+                }
+
+
+                public function getCalculeteTotal(){
+
+                  $this->updateFreight();
+
+                  $totals = $this->getProductsTotals();
+
+                  $this->setvlsubtotal($totals['vlprice']);
+                  $this->setvltotal($totals['vlprice'] + $this->getvlfreight());
+
+                }
+	     
+        }
+
 
 
 ?>
