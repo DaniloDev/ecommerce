@@ -269,9 +269,18 @@ class User extends Model{
                             $iv = random_bytes(openssl_cipher_iv_length('aes-256-cbc'));
                 $code = openssl_encrypt($dataRecovery['idrecovery'], 'aes-256-cbc', User::SECRET, 0, $iv);
                     $result = base64_encode($iv.$code);
-                if ($inadmin === true) {
-            $link = "http://www.ecommerce.com.br/admin/forgot/reset?code=$result";
 
+
+                if ($inadmin === true) {
+
+                $link = "http://www.ecommerce.com.br/admin/forgot/reset?code=$result";
+
+              } else {
+                 $link = "http://www.ecommerce.com.br/forgot/reset?code=$result";
+
+                    }
+
+               }
 
 
             $mailer = new Mailer($data["desemail"],$data["desperson"], "Redefinir senha da DDev","forgot", 
@@ -284,14 +293,7 @@ class User extends Model{
 
                                 $mailer->send();
 
-                                return $data;
-          } else {
-            $link = "http://www.ecommerce.com.br/forgot/reset?code=$result";
-
-                    }
-
-               }
-                        
+                                return $data;              
           }
 
 
