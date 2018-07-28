@@ -27,8 +27,8 @@ class Category extends Model{
               //Procedure varios comandos//
               $results = $sql->select("CALL sp_categories_save(:idcategory, :descategory)",
                       array(
-                     "idcategory"=>$this->getidcategory(),
-                     "descategory"=>$this->getdescategory()   
+                     ":idcategory"=>$this->getidcategory(),
+                     ":descategory"=>$this->getdescategory()   
                      
                      ));
 

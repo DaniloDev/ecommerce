@@ -10,6 +10,7 @@ class User extends Model{
 
 	   const SESSION = "User";
      const SECRET  =  "DDev_PHP7_Secret";
+     const SUCESS  =  "UserSucess"; 
      const ERROR   =  "UserError";
      const ERROR_REGISTER = "UserErrorRegister";
 
@@ -155,12 +156,12 @@ class User extends Model{
               //Procedure varios comandos//
               $results = $sql->select("CALL sp_users_save(:desperson, :deslogin, :despassword, :desemail, :nrphone, :inadmin)",
                       array(
-                     "desperson"=>utf8_decode($this->getdesperson()),
-                     "deslogin"=>$this->getdeslogin(),
-                     "despassword"=>User::getPasswordHash($this->getdespassword()),
-                     "desemail"=>$this->getdesemail(),
-                     "nrphone"=>$this->getnrphone(),
-                     "inadmin"=>$this->getinadmin()
+                     ":desperson"=>utf8_decode($this->getdesperson()),
+                     ":deslogin"=>$this->getdeslogin(),
+                     ":despassword"=>User::getPasswordHash($this->getdespassword()),
+                     ":desemail"=>$this->getdesemail(),
+                     ":nrphone"=>$this->getnrphone(),
+                     ":inadmin"=>$this->getinadmin()
                      
                      ));
 
@@ -198,13 +199,13 @@ class User extends Model{
               //Procedure varios comandos//
               $results = $sql->select("CALL sp_usersupdate_save(:iduser, :desperson, :deslogin, :despassword, :desemail, :nrphone,  :inadmin)",
                       array(
-                     "iduser"=>$this->getiduser(),       
-                     "desperson"=>utf8_decode($this->getdesperson()),
-                     "deslogin"=>$this->getdeslogin(),
-                     "despassword"=>User::getPasswordHash($this->getdespassword()),
-                     "desemail"=>$this->getdesemail(),
-                     "nrphone"=>$this->getnrphone(),
-                     "inadmin"=>$this->getinadmin()
+                     ":iduser"=>$this->getiduser(),       
+                     ":desperson"=>utf8_decode($this->getdesperson()),
+                     ":deslogin"=>$this->getdeslogin(),
+                     ":despassword"=>$_POST['despassword'],
+                     ":desemail"=>$this->getdesemail(),
+                     ":nrphone"=>$this->getnrphone(),
+                     ":inadmin"=>$this->getinadmin()
                      
                      ));
 
@@ -380,6 +381,27 @@ class User extends Model{
                  public static function clearError() { // Realiza a limpeza da variável de sessão especificada;
 
                   $_SESSION[User::ERROR] = NULL;
+                      
+                }
+
+                  public static function setSucess($msg) { // Atribui uma Mensagem de erro a variável de sessão especificada;
+
+                $_SESSION[User::SUCESS] = $msg;
+                
+                }
+
+               public static function getSucess() { // Retorna a mensagem de erro presente na variável de sessão ou "", caso contrário;
+
+               $msg = (isset($_SESSION[User::SUCESS]) &&  $_SESSION[User::SUCESS]) ? $_SESSION[User::SUCESS] : '';
+
+                    User::clearError(); // Realiza a limpeza da variável de sessão;
+
+                      return $msg;
+                  }
+
+                 public static function clearSucess() { // Realiza a limpeza da variável de sessão especificada;
+
+                  $_SESSION[User::SUCESS] = NULL;
                       
                 }
 
