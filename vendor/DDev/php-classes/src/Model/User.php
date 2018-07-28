@@ -10,6 +10,8 @@ class User extends Model{
 
 	   const SESSION = "User";
      const SECRET  =  "DDev_PHP7_Secret";
+     const ERROR   =  "UserError";
+     const ERROR_REGISTER = "UserErrorRegister";
 
 
 
@@ -377,6 +379,13 @@ class User extends Model{
 
                   $_SESSION[User::ERROR] = NULL;
                       
+                }
+
+                public static function setErrorRegister($msg){
+
+
+                   $_SESSION[User::ERROR_REGISTER] = $msg;
+
                 }
 
 	 }
