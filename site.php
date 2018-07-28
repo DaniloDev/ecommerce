@@ -4,6 +4,8 @@ use \DDev\Page;
 use \DDev\Model\Product;
 use \DDev\Model\Category;
 use \DDev\Model\Cart;
+use \DDev\Model\Address;
+use \DDev\Model\User;
 
 $app->get('/', function() {
 
@@ -151,5 +153,53 @@ $app->post("/cart/freight", function(){
 
 
 });
+
+
+$app->get("/checkout", function(){
+
+   User::verifyLogin(false); 
+
+  $cart = Cart::getFromSession();
+  
+  $address = new Address();  
+
+  $page = new Page();
+ 
+  $page->setTpl("checkout", [
+    'cart'=>$cart->getValues(),
+    'address'=>$address->getValues()
+
+    ]);   
+});
+
+$app->get("/login", function(){
+
+ $page = new Page();
+ 
+  $page->setTpl("login");
+
+});
+
+$app->post("/login", function(){
+
+    try{
+
+    User::login($_POST['logun'], $_POST['password']);
+
+    
+    }catch(Exception $e){
+
+
+
+    }
+
+
+ header("Location: /checkout");
+
+    exit;    
+
+
+});
+
 
 ?>

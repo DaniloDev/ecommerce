@@ -43,14 +43,14 @@ class Product extends Model{
               //Procedure varios comandos//
               $results = $sql->select("CALL sp_products_save(:idproduct, :desproduct, :vlprice, :vlwidth, :vlheight, :vllength, :vlweight, :desurl)",
                       array(
-                     ":idproduct"=>$this->getidproduct(),
-                     ":desproduct"=>$this->getdesproduct(),
-                     ":vlprice"=>$this->getvlprice(),
-                     ":vlwidth"=>$this->getvlwidth(),
-                     ":vlheight"=>$this->getvlheight(),
-                     ":vllength"=>$this->getvllength(),
-                     ":vlweight"=>$this->getvlweight(),
-                     ":desurl"=>$this->getdesurl()            
+                     "idproduct"=>$this->getidproduct(),
+                     "desproduct"=>$this->getdesproduct(),
+                     "vlprice"=>$this->getvlprice(),
+                     "vlwidth"=>$this->getvlwidth(),
+                     "vlheight"=>$this->getvlheight(),
+                     "vllength"=>$this->getvllength(),
+                     "vlweight"=>$this->getvlweight(),
+                     "desurl"=>$this->getdesurl()            
                      ));
 
                      $this->setData($results[0]);        

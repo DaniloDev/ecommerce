@@ -8,8 +8,8 @@ use \DDev\Mailer;
 
 class User extends Model{
 
-	   const SESSION = "";
-     const SECRET  =  "";
+	   const SESSION = "User";
+     const SECRET  =  "DDev_PHP7_Secret";
 
 
 
@@ -113,11 +113,18 @@ class User extends Model{
 
        	public static function verifyLogin($inadmin = true){
 
-       			if (User::checkLogin($inadmin)) {
+       			if (!User::checkLogin($inadmin)) {
 
-       			  header("Location: /admin/login");
-       				exit;
-       				
+              if ($inadmin) {
+                
+                header("Location: /admin/login");
+
+              }else{
+
+                 header("Location: /login");
+
+              }
+              exit;
        			}
        		}
 
@@ -146,12 +153,12 @@ class User extends Model{
               //Procedure varios comandos//
               $results = $sql->select("CALL sp_users_save(:desperson, :deslogin, :despassword, :desemail, :nrphone, :inadmin)",
                       array(
-                     ":desperson"=>$this->getdesperson(),
-                     ":deslogin"=>$this->getdeslogin(),
-                     ":despassword"=>$this->getdespassword(),
-                     ":desemail"=>$this->getdesemail(),
-                     ":nrphone"=>$this->getnrphone(),
-                     ":inadmin"=>$this->getinadmin()
+                     "desperson"=>$this->getdesperson(),
+                     "deslogin"=>$this->getdeslogin(),
+                     "despassword"=>$this->getdespassword(),
+                     "desemail"=>$this->getdesemail(),
+                     "nrphone"=>$this->getnrphone(),
+                     "inadmin"=>$this->getinadmin()
                      
                      ));
 
@@ -172,9 +179,12 @@ class User extends Model{
 
                         ));
 
-                        $this->setData($results[0]);
+                    $data = $results[0];
+
+                    $data['desperson'] = utf8_decode($data['desperson']);
 
 
+                   $this->setData($data);
 
 
               }
@@ -186,13 +196,13 @@ class User extends Model{
               //Procedure varios comandos//
               $results = $sql->select("CALL sp_usersupdate_save(:iduser, :desperson, :deslogin, :despassword, :desemail, :nrphone,  :inadmin)",
                       array(
-                     ":iduser"=>$this->getiduser(),       
-                     ":desperson"=>$this->getdesperson(),
-                     ":deslogin"=>$this->getdeslogin(),
-                     ":despassword"=>$this->getdespassword(),
-                     ":desemail"=>$this->getdesemail(),
-                     ":nrphone"=>$this->getnrphone(),
-                     ":inadmin"=>$this->getinadmin()
+                     "iduser"=>$this->getiduser(),       
+                     "desperson"=>$this->getdesperson(),
+                     "deslogin"=>$this->getdeslogin(),
+                     "despassword"=>$this->getdespassword(),
+                     "desemail"=>$this->getdesemail(),
+                     "nrphone"=>$this->getnrphone(),
+                     "inadmin"=>$this->getinadmin()
                      
                      ));
 
@@ -239,8 +249,8 @@ class User extends Model{
 
 
                          $results2 = $sql->select("CALL sp_userspasswordsrecoveries_create(:iduser, :desip)", array(
-                            ":iduser"=>$data["iduser"],
-                            ":desip"=>$_SERVER["REMOTE_ADDR"]
+                            "iduser"=>$data["iduser"],
+                            "desip"=>$_SERVER["REMOTE_ADDR"]
 
                           ));
 
@@ -346,6 +356,28 @@ class User extends Model{
 
 
         }
+
+
+        public static function setError($msg) { // Atribui uma Mensagem de erro a variável de sessão especificada;
+
+                $_SESSION[User::ERROR] = $msg;
+                
+                }
+
+               public static function getError() { // Retorna a mensagem de erro presente na variável de sessão ou "", caso contrário;
+
+               $msg = (isset($_SESSION[User::ERROR]) &&  $_SESSION[User::ERROR]) ? $_SESSION[User::ERROR] : '';
+
+                    User::clearError(); // Realiza a limpeza da variável de sessão;
+
+                      return $msg;
+                  }
+
+                 public static function clearError() { // Realiza a limpeza da variável de sessão especificada;
+
+                  $_SESSION[User::ERROR] = NULL;
+                      
+                }
 
 	 }
 

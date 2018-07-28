@@ -113,12 +113,12 @@ use \DDev\Model\User;
 
             $results = $sql->select("CALL sp_carts_save(:idcart, :dessessionid, :iduser, :deszipcode, :vlfreight, :nrdays)",[
             
-              ':idcart'=>$this->getidcart(),
-              ':dessessionid'=>$this->getdessessionid(),
-              ':iduser'=>$this->getiduser(),
-              ':deszipcode'=>$this->getdeszipcode(),
-              ':vlfreight'=>$this->getvlfreight(),
-              ':nrdays'=>$this->getnrdays()  
+              'idcart'=>$this->getidcart(),
+              'dessessionid'=>$this->getdessessionid(),
+              'iduser'=>$this->getiduser(),
+              'deszipcode'=>$this->getdeszipcode(),
+              'vlfreight'=>$this->getvlfreight(),
+              'nrdays'=>$this->getnrdays()  
 
             ]);
 
