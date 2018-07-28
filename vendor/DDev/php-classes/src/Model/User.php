@@ -72,10 +72,7 @@ class User extends Model{
 
 		  $sql = new Sql();
 
-		  $results = $sql->select("SELECT * FROM TB_USERS WHERE DESLOGIN = :LOGIN", array(
-
-			":LOGIN"=>$login
-		  ));
+		  $results = $sql->select("SELECT * FROM tb_users a INNER JOIN tb_persons b ON a.idperson = b.idperson WHERE a.deslogin = :LOGIN", array( ":LOGIN"=>$login  ));
        
        	if (count($results) === 0) {
        		
@@ -90,6 +87,9 @@ class User extends Model{
 
 
        		$user = new User();
+
+          //Formatar nome usuario
+          $data['desperson'] = utf8_encode($data['desperson']);
 
        		$user->setData($data);
              //Pega os valores de ssssão e etc//
@@ -155,9 +155,9 @@ class User extends Model{
               //Procedure varios comandos//
               $results = $sql->select("CALL sp_users_save(:desperson, :deslogin, :despassword, :desemail, :nrphone, :inadmin)",
                       array(
-                     "desperson"=>$this->getdesperson(),
+                     "desperson"=>$this->utf8_decode(getdesperson()),
                      "deslogin"=>$this->getdeslogin(),
-                     "despassword"=>$this->getdespassword(),
+                     "despassword"=>User::getPasswordHash($this->getdespassword()),
                      "desemail"=>$this->getdesemail(),
                      "nrphone"=>$this->getnrphone(),
                      "inadmin"=>$this->getinadmin()
@@ -177,13 +177,13 @@ class User extends Model{
                     $results = $sql->select("SELECT * FROM TB_USERS A INNER JOIN TB_PERSONS
                                           B USING(IDPERSON) WHERE A.IDUSER = :IDUSER", 
                      array(
-                     ":IDUSER"=>$iduser
+                     "IDUSER"=>$iduser
 
                         ));
 
                     $data = $results[0];
 
-                    $data['desperson'] = utf8_decode($data['desperson']);
+                    $data['desperson'] = utf8_encode($data['desperson']);
 
 
                    $this->setData($data);
@@ -199,9 +199,9 @@ class User extends Model{
               $results = $sql->select("CALL sp_usersupdate_save(:iduser, :desperson, :deslogin, :despassword, :desemail, :nrphone,  :inadmin)",
                       array(
                      "iduser"=>$this->getiduser(),       
-                     "desperson"=>$this->getdesperson(),
+                     "desperson"=>$this->utf8_decode($this->getdesperson()),
                      "deslogin"=>$this->getdeslogin(),
-                     "despassword"=>$this->getdespassword(),
+                     "despassword"=>User::getPasswordHash($this->getdespassword()),
                      "desemail"=>$this->getdesemail(),
                      "nrphone"=>$this->getnrphone(),
                      "inadmin"=>$this->getinadmin()
@@ -219,7 +219,7 @@ class User extends Model{
                      $sql = new Sql();
 
                      $sql->query("CALL sp_users_delete(:iduser)", array(
-                        ":iduser"=>$this->getiduser()    
+                        "iduser"=>$this->getiduser()    
                      ));
 
 
@@ -387,6 +387,46 @@ class User extends Model{
                    $_SESSION[User::ERROR_REGISTER] = $msg;
 
                 }
+
+
+                public static function getErrorRegister(){
+
+
+                 $msg = (isset($_SESSION[User::ERROR_REGISTER]) && $_SESSION[User::ERROR_REGISTER]) ? $_SESSION[User::ERROR_REGISTER] : '';  
+
+
+
+                }
+
+                public static function clearErrorRegister(){
+
+
+                  $_SESSION[User::ERROR_REGISTER] = NULL;
+
+
+                }
+
+                 public static function checkLoginExist($login){
+
+
+                  $sql = new Sql();
+
+                  $results = $sql->select("SELECT * FROM tb_users WHERE deslogin = :deslogin" , [
+                  ':deslogin'=>$login
+
+                  ]);
+
+                  return (count($results) > 0);
+
+                 }
+
+                 public static function getPasswordHash($password){
+
+                  return password_hash($password, PASSWORD_DEFAULT, [
+                    'cost'=>12
+
+                  ]);
+                 }
 
 	 }
 

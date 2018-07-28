@@ -8,7 +8,7 @@ $app->get('/admin/users', function(){
 	User::verifyLogin();
 
 	$users = User::listALL();
-
+	
 	$page = new PageAdmin();
 
 	$page->setTpl("users", array(

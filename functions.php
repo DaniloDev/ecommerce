@@ -11,6 +11,14 @@ function formatPrice($vlPrice) { // Função que retorna o valor Real passado no
 	return number_format($vlPrice, 2, ',', '.');		
 }
 
+function checkLogin($inadmin = true){
+
+
+	return User::checkLogin($inadmin);
+
+
+}
+
 function formatDate($date) { // Realiza a formatação da data passada como parâmetro;
 
 	return date('d/m/Y', strtotime($date));
