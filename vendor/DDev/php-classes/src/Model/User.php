@@ -155,7 +155,7 @@ class User extends Model{
               //Procedure varios comandos//
               $results = $sql->select("CALL sp_users_save(:desperson, :deslogin, :despassword, :desemail, :nrphone, :inadmin)",
                       array(
-                     "desperson"=>$this->utf8_decode(getdesperson()),
+                     "desperson"=>utf8_decode($this->getdesperson()),
                      "deslogin"=>$this->getdeslogin(),
                      "despassword"=>User::getPasswordHash($this->getdespassword()),
                      "desemail"=>$this->getdesemail(),
@@ -199,7 +199,7 @@ class User extends Model{
               $results = $sql->select("CALL sp_usersupdate_save(:iduser, :desperson, :deslogin, :despassword, :desemail, :nrphone,  :inadmin)",
                       array(
                      "iduser"=>$this->getiduser(),       
-                     "desperson"=>$this->utf8_decode($this->getdesperson()),
+                     "desperson"=>utf8_decode($this->getdesperson()),
                      "deslogin"=>$this->getdeslogin(),
                      "despassword"=>User::getPasswordHash($this->getdespassword()),
                      "desemail"=>$this->getdesemail(),
@@ -394,7 +394,9 @@ class User extends Model{
 
                  $msg = (isset($_SESSION[User::ERROR_REGISTER]) && $_SESSION[User::ERROR_REGISTER]) ? $_SESSION[User::ERROR_REGISTER] : '';  
 
+                  User::clearErrorRegister();
 
+                  return $msg;
 
                 }
 
