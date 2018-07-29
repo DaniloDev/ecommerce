@@ -9,7 +9,7 @@ class Mailer{
 
 
     const USERNAME = "cursosmega800@gmail.com";
-    const PASSWORD = "nascimento@2ba";
+    const PASSWORD = "";
     const NAME_FROM = "PHP Ecommerce";
     private $mail;
 
