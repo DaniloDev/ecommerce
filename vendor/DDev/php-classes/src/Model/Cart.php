@@ -139,7 +139,7 @@ use \DDev\Model\User;
               ]);
 
 
-            $this->getCalculeteTotal();
+            $this->getCalculateTotal();
 
           }
 
@@ -166,7 +166,7 @@ use \DDev\Model\User;
                    ]);
              }
 
-             $this->getCalculeteTotal();
+             $this->getCalculateTotal();
 
           }
 
@@ -335,7 +335,7 @@ use \DDev\Model\User;
                 public function getValues(){
 
 
-                  $this->getCalculeteTotal();
+                  $this->getCalculateTotal();
 
 
                   return parent::getValues();
@@ -344,7 +344,7 @@ use \DDev\Model\User;
                 }
 
 
-                public function getCalculeteTotal(){
+                public function getCalculateTotal(){
 
                   $this->updateFreight();
 

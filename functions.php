@@ -46,6 +46,24 @@ function getDtregister() { // Retorna Data de registro do Usuario;
 
 ///////////////////////////////////////////////
 
+function getCartNrQtd(){
 
+	$cart = Cart::getFromSession();
+
+	$totals = $cart->getProductsTotals();
+
+    return $totals['nrqtd'];//Carrinho com o frete
+
+}
+
+function getCartVlSubTotal(){
+
+	$cart = Cart::getFromSession();
+
+	$totals = $cart->getProductsTotals();
+
+	return formatPrice($totals['vlprice']);//Carrinho sem o frete
+
+}
 
 ?>
