@@ -459,7 +459,7 @@ $app->get("/profile", function(){
 
   $page->setTpl("profile" , [
     'user'=>$user->getValues(),
-    'profileMsg'=>User::getSucess(),
+    'profileMsg'=>User::getSuccess(),
     'profileError'=>User::getError()
     ]); 
 });
@@ -514,7 +514,7 @@ $app->post("/profile" , function(){
 
   $_SESSION[User::SESSION] = $user->getValues();
     
-  User::setSucess("Dados alterados com sucesso!");
+  User::setSuccess("Dados alterados com sucesso!");
 
   header("Location: /profile");
    exit;
@@ -650,6 +650,93 @@ $app->get("/profile/orders/:idorder", function($idorder){
   ]);
 
 });
+
+$app->get("/profile-change-password" , function(){
+
+  User::verifyLogin(false);
+
+  $page = new Page();
+
+  $page->setTpl("profile-change-password", [
+        'changePassError'=>User::getError(),
+        'changePassSuccess'=>User::getSuccess()
+
+
+  ]);
+
+});
+
+$app->post("/profile/change-password" , function(){
+
+      User::verifyLogin(false);
+
+    if (!isset($_POST['current_pass']) || $_POST['current_pass'] === '') {
+      
+      User::setError("Digite a senha atual.");
+      header("Location: /profile-change-password");
+      exit;
+
+      }
+
+      if (!isset($_POST['new_pass']) || $_POST['new_pass'] === '') {
+      
+      User::setError("Digite a nova senha.");
+      header("Location: /profile-change-password");
+      exit;
+
+      }
+
+      if (!isset($_POST['new_pass_confirm']) || $_POST['new_pass_confirm'] === '') {
+      
+      User::setError("Confirme a nova senha.");
+      header("Location: /profile-change-password");
+      exit;
+
+      }
+
+      if ($_POST['current_pass'] === $_POST['new_pass']) {
+      
+      User::setError("Sua nova senha deve ser diferente da atual.");
+      header("Location: /profile-change-password");
+      exit;
+
+      }
+
+      if ($_POST['new_pass'] !== $_POST['new_pass_confirm']) {
+ 
+      User::setError("A senha de confirmação deve ser igual a nova senha.");
+      header("Location: /profile-change-password");
+      exit;
+     }
+
+      $user = User::getFromSession();
+
+
+      if (!password_verify($_POST['current_pass'], $user->getdespassword())) {
+      
+      User::setError("A senha está invalida.");
+      header("Location: /profile-change-password");
+      exit;
+
+      }
+
+      //'getPasswordHash', está aqui porque não tem no metodo update , pois estava apresentando problema
+      $user->setdespassword(User::getPasswordHash($_POST['new_pass']));
+
+      $user->update();
+
+      //Reler informações do usuário//
+      $_SESSION[User::SESSION] = $user->getValues();
+
+      User::setSuccess("Senha alterada com sucesso.");
+      //Direciona o usuário para ver a menssagem de sucesso na propria template
+       header("Location: /profile-change-password");
+       exit; 
+
+
+});
+
+
 
 
 ?>

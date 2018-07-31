@@ -10,7 +10,7 @@ class User extends Model{
 
 	   const SESSION = "User";
      const SECRET  =  "DDev_PHP7_Secret";
-     const SUCESS  =  "UserSucess"; 
+     const SUCCESS  =  "UserSuccess"; 
      const ERROR   =  "UserError";
      const ERROR_REGISTER = "UserErrorRegister";
 
@@ -192,37 +192,6 @@ class User extends Model{
 
               }
 
-
-/*
-                      public function update( $changePassword = true )
-                       {
-                       
-                          if ( $changePassword ) {
-                       
-                             $password = password_hash( $this->getdespassword(), PASSWORD_DEFAULT, [ "cost" => 12 ] );
-                       
-                          } else {
-                       
-                             $password = $_POST['despassword'];
-                       
-                          }
-                       
-                          $sql = new Sql();
-                          $results = $sql->select( "CALL sp_usersupdate_save(:iduser, :desperson, :deslogin, :despassword, :desemail, :nrphone, :inadmin)", 
-                                                        array( 
-                                                        ":iduser"      => $this->getiduser(),
-                                                        ":desperson"   => utf8_decode( $this->getdesperson() ),
-                                                       ":deslogin"    => $this->getdeslogin(),
-                                                       ":despassword" => $password,
-                                                       ":desemail"    => $this->getdesemail(),
-                                                       ":nrphone"     => $this->getnrphone(),
-                                                       ":inadmin"     => $this->getinadmin() ) 
-                                                  );
-                       
-                          $this->setData( $results[ 0 ] );
-                       }
-
-                       */
                       
               public function update(){
 
@@ -417,24 +386,24 @@ class User extends Model{
                       
                 }
 
-                  public static function setSucess($msg) { // Atribui uma Mensagem de erro a variável de sessão especificada;
+                  public static function setSuccess($msg) { // Atribui uma Mensagem de erro a variável de sessão especificada;
 
-                $_SESSION[User::SUCESS] = $msg;
+                $_SESSION[User::SUCCESS] = $msg;
                 
                 }
 
-               public static function getSucess() { // Retorna a mensagem de erro presente na variável de sessão ou "", caso contrário;
+               public static function getSuccess() { // Retorna a mensagem de erro presente na variável de sessão ou "", caso contrário;
 
-               $msg = (isset($_SESSION[User::SUCESS]) &&  $_SESSION[User::SUCESS]) ? $_SESSION[User::SUCESS] : '';
+               $msg = (isset($_SESSION[User::SUCCESS]) &&  $_SESSION[User::SUCCESS]) ? $_SESSION[User::SUCCESS] : '';
 
-                    User::clearSucess(); // Realiza a limpeza da variável de sessão;
+                    User::clearSuccess(); // Realiza a limpeza da variável de sessão;
 
                       return $msg;
                   }
 
-                 public static function clearSucess() { // Realiza a limpeza da variável de sessão especificada;
+                 public static function clearSuccess() { // Realiza a limpeza da variável de sessão especificada;
 
-                  $_SESSION[User::SUCESS] = NULL;
+                  $_SESSION[User::SUCCESS] = NULL;
                       
                 }
 

@@ -13,17 +13,18 @@ class Sql {
 
 	public function __construct()
 	{
-          /*  //objetivo é definir que todas as nossas consultas tragam os dados em utf-8, de maneira legível e agradável para os usuários//
+            //objetivo é definir que todas as nossas consultas tragam os dados em utf-8, de maneira legível e agradável para os usuários//
 			$this->conn = new \PDO( "mysql:dbname=".Sql::DBNAME.";host=".Sql::HOSTNAME, Sql::USERNAME, Sql::PASSWORD, array(\PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8")); 
-*/
 
-        
+
+       /* 
 		$this->conn = new \PDO(
 			"mysql:dbname=".Sql::DBNAME.";host=".Sql::HOSTNAME, 
 			Sql::USERNAME,
 			Sql::PASSWORD
 		);
 		
+		*/
 
 	}
 
