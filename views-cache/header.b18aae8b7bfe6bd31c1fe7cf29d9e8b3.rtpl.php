@@ -259,7 +259,8 @@ desired effect
         <!-- Optionally, you can add icons to the links -->
         <li><a href="/admin/users"><i class="fa fa-users"></i> <span>Usuários</span></a></li>
         <li><a href="/admin/categories"><i class="fa fa fa-tag"></i> <span>Categorias</span></a></li>
-        <li><a href="/admin/products"><i class="fa fa fa-tag"></i> <span>Produtos</span></a></li>
+        <li><a href="/admin/products"><i class="fa fa-product-hunt"></i> <span>Produtos</span></a></li>
+        <li><a href="/admin/orders"><i class="fa fa fa-shopping-cart"></i> <span>Pedidos</span></a></li>
         <li class="treeview">
           <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span>
             <span class="pull-right-container">
