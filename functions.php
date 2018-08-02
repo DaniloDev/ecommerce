@@ -33,6 +33,15 @@ function getUserName() { // Retorna o nome do Usuário;
 	return $user->getdesperson();
 }
 
+
+//Funções retornar dados do Usuário logado//
+function getLogin() { // Retorna o nome do Usuário;
+
+	$user = User::getFromSession();
+	
+	return $user->getdeslogin();
+}
+
 function getDtregister() { // Retorna Data de registro do Usuario;
 
 	$user = User::getFromSession();

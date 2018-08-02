@@ -141,6 +141,84 @@ class Order extends Model{
                 }
 
 
+                //Classe para fazer paginação, 'ceil', converte aredondando pra cima//
+
+                public static function getPage($page = 1,  $itemsPerPage = 10){
+
+
+                  $start = ($page - 1) * $itemsPerPage;
+
+                  $sql = new Sql();
+                       
+                       $results = $sql->select("
+                        SELECT SQL_CALC_FOUND_ROWS *
+                        FROM tb_orders a
+                        INNER JOIN tb_ordersstatus b USING(idstatus)
+                        INNER JOIN tb_carts c USING(idcart)
+                        INNER JOIN tb_users d ON d.iduser = a.iduser
+                        INNER JOIN tb_addresses e USING(idaddress)
+                        INNER JOIN tb_persons f ON f.idperson = d.idperson  
+                        ORDER BY a.dtregister DESC
+                        LIMIT $start, $itemsPerPage;
+                        ");     
+
+                        $resulTotal = $sql->select("SELECT FOUND_ROWS() AS nrtotal");
+
+                        return [
+                            'data'=>$results,
+                            'total'=>(int)$resulTotal[0]["nrtotal"],
+                            'pages'=>ceil($resulTotal[0]["nrtotal"] / $itemsPerPage)
+
+
+                        ];
+
+
+                }
+
+
+         
+                  public static function getPageSearch($search, $page = 1,  $itemsPerPage = 10){
+
+
+                  $start = ($page - 1) * $itemsPerPage;
+
+                  $sql = new Sql();
+                        $results = $sql->select("
+                        SELECT SQL_CALC_FOUND_ROWS *
+                       FROM tb_orders a
+                       INNER JOIN tb_ordersstatus b USING(idstatus)
+                       INNER JOIN tb_carts c USING(idcart)
+                       INNER JOIN tb_users d ON d.iduser = a.iduser
+                       INNER JOIN tb_addresses e USING(idaddress)
+                       INNER JOIN tb_persons f ON f.idperson = d.idperson
+                       WHERE a.idorder = :id OR f.desperson :search 
+                       ORDER BY a.dtregister DESC
+                       LIMIT $start, $itemsPerPage,
+                      ", [
+                        ':search'=>'%'.$search.'%',
+                        ':id'=>$search
+
+                      ]); 
+
+                        $resulTotal = $sql->select("SELECT FOUND_ROWS() AS nrtotal");
+
+                        return [
+                            'data'=>$results,
+                            'total'=>(int)$resulTotal[0]["nrtotal"],
+                            'pages'=>ceil($resulTotal[0]["nrtotal"] / $itemsPerPage)
+
+
+                        ];
+
+
+                }
+
+
+
+
+   
+
+
 }
 
 ?>
