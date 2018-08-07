@@ -21,16 +21,16 @@ action="https://pagseguro.uol.com.br/v2/checkout/payment.html">
         <!-- Informações de frete (opcionais) -->  
         <input name="shippingType" type="hidden" value="1">  
         <input name="shippingAddressPostalCode" type="hidden" value="{$order.deszipcode}">  
-        <input name="shippingAddressStreet" type="hidden" value="{function="utf8_encode($order.desaddress)"}">  
-        <input name="shippingAddressNumber" type="hidden" value="{function="utf8_encode($order.desnumber)"}">  
-        <input name="shippingAddressComplement" type="hidden" value="{function="utf8_encode($order.descomplement)"}">  
-        <input name="shippingAddressDistrict" type="hidden" value="{function="utf8_encode($order.desdistrict)"}">  
-        <input name="shippingAddressCity" type="hidden" value="{function="utf8_encode($order.descity)"}">  
-        <input name="shippingAddressState" type="hidden" value="{function="utf8_encode($order.desstate)"}">  
-        <input name="shippingAddressCountry" type="hidden" value="{function="utf8_encode($order.descountry)"}">  
+        <input name="shippingAddressStreet" type="hidden" value="{$order.desaddress}">  
+        <input name="shippingAddressNumber" type="hidden" value="{$order.desnumber}">  
+        <input name="shippingAddressComplement" type="hidden" value="{$order.descomplement}">  
+        <input name="shippingAddressDistrict" type="hidden" value="{$order.desdistrict}">  
+        <input name="shippingAddressCity" type="hidden" value="{$order.descity}>  
+        <input name="shippingAddressState" type="hidden" value="{$order.desstate}">  
+        <input name="shippingAddressCountry" type="hidden" value="{$order.descountry}">  
   
         <!-- Dados do comprador (opcionais) -->  
-        <input name="senderName" type="hidden" value="{function="utf8_encode($order.desperson)"}">  
+        <input name="senderName" type="hidden" value="{$order.desperson}">  
         <input name="senderAreaCode" type="hidden" value="{$phone.areacode}">  
         <input name="senderPhone" type="hidden" value="{$phone.number}">  
         <input name="senderEmail" type="hidden" value="{$order.desemail}">  

@@ -235,7 +235,7 @@ class Product extends Model{
                         FROM tb_products
                         WHERE desproduct LIKE :search
                         ORDER BY desproduct
-                       LIMIT $start, $itemsPerPage,
+                       LIMIT $start, $itemsPerPage;
                       ", [
                         ':search'=>'%'.$search.'%'
 

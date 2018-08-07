@@ -155,7 +155,7 @@ class User extends Model{
               //Procedure varios comandos//
               $results = $sql->select("CALL sp_users_save(:desperson, :deslogin, :despassword, :desemail, :nrphone, :inadmin)",
                       array(
-                     ":desperson"=>utf8_decode($this->getdesperson()),
+                     ":desperson"=>$this->getdesperson(),
                      ":deslogin"=>$this->getdeslogin(),
                      ":despassword"=>User::getPasswordHash($this->getdespassword()),
                      ":desemail"=>$this->getdesemail(),
@@ -200,7 +200,7 @@ class User extends Model{
               $results = $sql->select("CALL sp_usersupdate_save(:iduser, :desperson, :deslogin, :despassword, :desemail, :nrphone,  :inadmin)",
                       array(
                      ":iduser"=>$this->getiduser(),       
-                     ":desperson"=>utf8_decode($this->getdesperson()),
+                     ":desperson"=>$this->getdesperson(),
                      ":deslogin"=>$this->getdeslogin(),
                      ":despassword"=>$this->getdespassword(),
                      ":desemail"=>$this->getdesemail(),
@@ -521,11 +521,12 @@ class User extends Model{
                                 SELECT SQL_CALC_FOUND_ROWS *
                                 FROM tb_users a 
                                 INNER JOIN tb_persons b USING(idperson)
-                                WHERE b.desperson LIKE :search OR b.desemail = :search OR a.deslogin LIKE :search 
+                                WHERE b.desperson LIKE :search OR b.desemail = :searchemail OR a.deslogin LIKE :search 
                                 ORDER BY b.desperson 
-                               LIMIT $start, $itemsPerPage,
+                               LIMIT $start, $itemsPerPage;
                               ", [
-                                ':search'=>'%'. $search.'%'
+                                ':search'=>'%'. $search.'%',
+                                 ':searchemail'=>$search
 
                               ]); 
 

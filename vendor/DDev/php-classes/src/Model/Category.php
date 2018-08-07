@@ -230,7 +230,7 @@ class Category extends Model{
                         FROM tb_categories
                         WHERE descategory LIKE :search
                         ORDER BY descategory
-                       LIMIT $start, $itemsPerPage,
+                       LIMIT $start, $itemsPerPage;
                       ", [
                         ':search'=>'%'.$search.'%'
 
